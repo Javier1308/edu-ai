@@ -6,7 +6,7 @@ import { fileURLToPath } from "url";
 import OpenAI from "openai";
 import multer from "multer";
 import mammoth from "mammoth";
-import * as pdfjsLib from "pdfjs-dist/legacy/build/pdf.mjs";
+import PDFParser from "pdf2json";
 
 const upload = multer({
   storage: multer.memoryStorage(),
@@ -180,15 +180,12 @@ app.post("/api/extract", upload.single("file"), async (req, res) => {
     let text = "";
 
     if (ext === "pdf") {
-      const loadingTask = pdfjsLib.getDocument({ data: new Uint8Array(buffer) });
-      const pdf = await loadingTask.promise;
-      const pages = [];
-      for (let i = 1; i <= pdf.numPages; i++) {
-        const page = await pdf.getPage(i);
-        const content = await page.getTextContent();
-        pages.push(content.items.map((item) => item.str).join(" "));
-      }
-      text = pages.join("\n");
+      text = await new Promise((resolve, reject) => {
+        const parser = new PDFParser(null, 1);
+        parser.on("pdfParser_dataReady", () => resolve(parser.getRawTextContent()));
+        parser.on("pdfParser_dataError", reject);
+        parser.parseBuffer(buffer);
+      });
     } else if (ext === "docx") {
       const result = await mammoth.extractRawText({ buffer });
       text = result.value;
