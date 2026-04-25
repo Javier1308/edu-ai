@@ -4,6 +4,14 @@ import fs from "fs";
 import path from "path";
 import { fileURLToPath } from "url";
 import OpenAI from "openai";
+import multer from "multer";
+import mammoth from "mammoth";
+import { extractText, getDocumentProxy } from "unpdf";
+
+const upload = multer({
+  storage: multer.memoryStorage(),
+  limits: { fileSize: 8 * 1024 * 1024 },
+});
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
@@ -93,6 +101,14 @@ const INSTRUCCIONES_TIPO = {
 3. Para cada actividad: nombre, materiales, instrucciones paso a paso, tiempo estimado
 4. Actividades que promuevan trabajo individual y colaborativo
 5. Indicadores de logro por actividad`,
+
+  mejora: `Analiza el material educativo adjunto y proporciona RETROALIMENTACIÓN PEDAGÓGICA con:
+1. **Resumen del material** — qué es y qué propósito tiene
+2. **Fortalezas** — qué está bien logrado pedagógicamente
+3. **Oportunidades de mejora** — aspectos específicos a mejorar con justificación
+4. **Alineación al CNEB** — qué competencias y capacidades aborda (o debería abordar)
+5. **Recomendaciones concretas** — al menos 3 sugerencias accionables
+6. **Tabla resumen** — fortaleza / área de mejora / prioridad (alta/media/baja)`,
 };
 
 // POST /api/generate
@@ -150,6 +166,35 @@ app.post("/api/generate", async (req, res) => {
       res.write(`data: ${JSON.stringify({ error: err?.message })}\n\n`);
       res.end();
     }
+  }
+});
+
+// POST /api/extract
+app.post("/api/extract", upload.single("file"), async (req, res) => {
+  if (!req.file) return res.status(400).json({ error: "No se recibió ningún archivo." });
+
+  const { originalname, buffer, size } = req.file;
+  const ext = originalname.split(".").pop()?.toLowerCase();
+
+  try {
+    let text = "";
+
+    if (ext === "pdf") {
+      const pdf = await getDocumentProxy(new Uint8Array(buffer));
+      const { text: pages } = await extractText(pdf, { mergePages: true });
+      text = Array.isArray(pages) ? pages.join("\n") : String(pages);
+    } else if (ext === "docx") {
+      const result = await mammoth.extractRawText({ buffer });
+      text = result.value;
+    } else {
+      text = buffer.toString("utf-8");
+    }
+
+    text = text.trim();
+    res.json({ text, chars: text.length, filename: originalname, size });
+  } catch (err) {
+    console.error("Error extrayendo texto:", err?.message);
+    res.status(500).json({ error: "No se pudo extraer el texto del archivo.", detail: err?.message });
   }
 });
 
