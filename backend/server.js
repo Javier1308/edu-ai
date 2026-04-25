@@ -116,4 +116,4 @@ app.post("/api/generate", async (req, res) => {
 app.get("/api/health", (_req, res) => res.json({ status: "ok" }));
 
 const PORT = process.env.PORT || 3001;
-app.listen(PORT, () => console.log(`Backend Edu escuchando en http://localhost:${PORT}`));
+app.listen(PORT, "0.0.0.0", () => console.log(`Backend Edu escuchando en http://0.0.0.0:${PORT}`));

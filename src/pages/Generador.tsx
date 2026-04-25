@@ -52,7 +52,7 @@ export default function Generador() {
     abortRef.current = new AbortController();
 
     try {
-      const API_URL = import.meta.env.VITE_API_URL ?? "https://edu-ai-production-0526.up.railway.app";
+      const API_URL = import.meta.env.VITE_API_URL ?? "https://edu-ai-production-0113.up.railway.app";
       const res = await fetch(`${API_URL}/api/generate`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
