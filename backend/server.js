@@ -30,8 +30,8 @@ function loadDoc(filePath, maxChars) {
 }
 
 const curricularContext =
-  loadDoc("/home/javier1308/Downloads/programa-nivel-primaria-ebr.md", MAX_PROGRAM_CHARS) +
-  loadDoc("/home/javier1308/Downloads/norma-tecnica-para-el-ano-escolar-2026.md", MAX_NORMA_CHARS);
+  loadDoc(path.join(__dirname, "data", "programa-nivel-primaria-ebr.md"), MAX_PROGRAM_CHARS) +
+  loadDoc(path.join(__dirname, "data", "norma-tecnica-para-el-ano-escolar-2026.md"), MAX_NORMA_CHARS);
 
 console.log(`Contexto curricular cargado: ${curricularContext.length} caracteres`);
 
