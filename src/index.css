@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,400;1,9..144,500&family=Figtree:wght@400;500;600;700&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -8,35 +10,46 @@ All colors MUST be HSL.
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
+    /* Edu — Aula Soleada Orgánica */
+    --background: 40 33% 97%;        /* warm-sand #F9F7F2 */
+    --foreground: 168 24% 23%;       /* deep-forest #2D4A43 */
 
     --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
+    --card-foreground: 168 24% 23%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
+    --popover-foreground: 168 24% 23%;
 
-    --primary: 222.2 47.4% 11.2%;
-    --primary-foreground: 210 40% 98%;
+    --primary: 168 24% 23%;          /* deep-forest */
+    --primary-foreground: 40 33% 97%;
 
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
+    --secondary: 125 22% 92%;        /* soft-leaf #E8F0E9 */
+    --secondary-foreground: 168 24% 23%;
 
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
+    --muted: 40 30% 94%;
+    --muted-foreground: 168 14% 38%;
 
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
+    --accent: 14 51% 54%;            /* andes-clay #C86B4D */
+    --accent-foreground: 0 0% 100%;
 
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
+    --sunlight: 48 100% 95%;         /* sunlight #FFF9E6 */
+    --soft-leaf: 125 22% 92%;
+    --andes-clay: 14 51% 54%;
+    --deep-forest: 168 24% 23%;
+    --warm-sand: 40 33% 97%;
 
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 222.2 84% 4.9%;
+    --gradient-warm: linear-gradient(135deg, hsl(48 100% 95%), hsl(40 33% 97%));
+    --shadow-soft: 0 20px 60px -20px hsl(168 24% 23% / 0.12);
+    --shadow-clay: 0 20px 50px -15px hsl(14 51% 54% / 0.25);
 
-    --radius: 0.5rem;
+    --destructive: 0 72% 51%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 168 15% 88%;
+    --input: 168 15% 88%;
+    --ring: 14 51% 54%;
+
+    --radius: 1rem;
 
     --sidebar-background: 0 0% 98%;
 
@@ -100,6 +113,11 @@ All colors MUST be HSL.
   }
 
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground font-sans antialiased;
+    font-family: 'Figtree', system-ui, sans-serif;
+  }
+
+  h1, h2, h3, h4 {
+    font-family: 'Fraunces', Georgia, serif;
   }
 }

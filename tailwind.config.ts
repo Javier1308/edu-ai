@@ -13,7 +13,23 @@ export default {
       },
     },
     extend: {
+      fontFamily: {
+        serif: ['Fraunces', 'Georgia', 'serif'],
+        sans: ['Figtree', 'system-ui', 'sans-serif'],
+      },
+      backgroundImage: {
+        'gradient-warm': 'var(--gradient-warm)',
+      },
+      boxShadow: {
+        soft: 'var(--shadow-soft)',
+        clay: 'var(--shadow-clay)',
+      },
       colors: {
+        'warm-sand': 'hsl(var(--warm-sand))',
+        'deep-forest': 'hsl(var(--deep-forest))',
+        'andes-clay': 'hsl(var(--andes-clay))',
+        'soft-leaf': 'hsl(var(--soft-leaf))',
+        'sunlight': 'hsl(var(--sunlight))',
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",
