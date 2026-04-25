@@ -58,19 +58,60 @@ const app = express();
 app.use(cors({ origin: "*" }));
 app.use(express.json());
 
+const INSTRUCCIONES_TIPO = {
+  sesion: `Genera una SESIÓN DE APRENDIZAJE completa con:
+1. Título y propósito de aprendizaje
+2. Competencias y capacidades del CNEB
+3. Momentos: Inicio (motivación, saberes previos), Desarrollo (actividades principales), Cierre (reflexión, evaluación)
+4. Materiales necesarios
+5. Criterios de evaluación`,
+
+  ficha: `Genera una FICHA DE EJERCICIOS con:
+1. Título y datos (grado, área, tema)
+2. Instrucciones claras
+3. Mínimo 8 ejercicios variados (nivel básico, medio y avanzado)
+4. Espacio para respuestas
+5. Clave de respuestas al final`,
+
+  ejemplos: `Genera EJEMPLOS Y CASOS con:
+1. Explicación conceptual breve
+2. Mínimo 5 ejemplos resueltos paso a paso
+3. Ejemplos contextualizados a la realidad peruana (comunidades, mercados, naturaleza local)
+4. Variación de dificultad progresiva
+5. Errores comunes a evitar`,
+
+  evaluacion: `Genera una EVALUACIÓN con:
+1. Encabezado (nombre, grado, fecha, puntaje)
+2. Instrucciones generales
+3. Mínimo 10 preguntas variadas (opción múltiple, desarrollo, resolución de problemas)
+4. Distribución de puntaje por pregunta
+5. Rúbrica de evaluación alineada al CNEB`,
+
+  actividades: `Genera un SET DE ACTIVIDADES con:
+1. Objetivo de aprendizaje
+2. Mínimo 5 actividades dinámicas y participativas
+3. Para cada actividad: nombre, materiales, instrucciones paso a paso, tiempo estimado
+4. Actividades que promuevan trabajo individual y colaborativo
+5. Indicadores de logro por actividad`,
+};
+
 // POST /api/generate
 app.post("/api/generate", async (req, res) => {
-  const { problematica, grado, area, duracion } = req.body;
+  const { problematica, grado, area, duracion, tipoMaterial = "sesion" } = req.body;
 
   if (!problematica || problematica.trim().length < 5) {
     return res.status(400).json({ error: "El campo 'problematica' es requerido." });
   }
 
+  const instruccion = INSTRUCCIONES_TIPO[tipoMaterial] ?? INSTRUCCIONES_TIPO.sesion;
+
   const userMessage = [
     grado ? `Grado: ${grado}` : null,
     area ? `Área curricular: ${area}` : null,
-    duracion ? `Duración de sesión: ${duracion}` : null,
-    `\nProblemática o necesidad del docente:\n${problematica.trim()}`,
+    duracion ? `Duración: ${duracion}` : null,
+    `Tipo de material solicitado: ${tipoMaterial}`,
+    `\n${instruccion}`,
+    `\nTema o problemática del docente:\n${problematica.trim()}`,
   ]
     .filter(Boolean)
     .join("\n");
