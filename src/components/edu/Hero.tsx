@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Sparkles, FileText, Download } from "lucide-react";
+import { Link } from "react-router-dom";
 import teacherHero from "@/assets/teacher-hero.jpg";
 
 const Hero = () => (
@@ -21,9 +22,11 @@ const Hero = () => (
         </p>
 
         <div className="flex flex-col sm:flex-row items-start sm:items-center gap-6 pt-2">
-          <Button className="bg-andes-clay text-white hover:bg-andes-clay/90 px-8 py-6 rounded-2xl text-base font-medium shadow-clay">
-            Comenzar mi primera unidad
-          </Button>
+          <Link to="/generador">
+            <Button className="bg-andes-clay text-white hover:bg-andes-clay/90 px-8 py-6 rounded-2xl text-base font-medium shadow-clay">
+              Comenzar mi primera unidad
+            </Button>
+          </Link>
           <div className="flex flex-col">
             <span className="text-xs font-semibold text-deep-forest/50 uppercase tracking-widest">Construido para</span>
             <span className="text-deep-forest/70 font-medium">Docentes STEM del Perú</span>

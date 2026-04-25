@@ -1,4 +1,5 @@
 import { Button } from "@/components/ui/button";
+import { Link } from "react-router-dom";
 import teacherHero from "@/assets/teacher-hero.jpg";
 
 const CTA = () => (
@@ -14,9 +15,11 @@ const CTA = () => (
           Únete a los docentes que ya están diseñando clases más significativas con menos esfuerzo, alineadas a los estándares del MINEDU.
         </p>
         <div className="mt-8 flex flex-col sm:flex-row gap-4">
-          <Button className="bg-andes-clay text-white hover:bg-andes-clay/90 px-8 py-6 rounded-2xl text-base font-medium shadow-clay">
-            Empezar gratis
-          </Button>
+          <Link to="/generador">
+            <Button className="bg-andes-clay text-white hover:bg-andes-clay/90 px-8 py-6 rounded-2xl text-base font-medium shadow-clay">
+              Empezar gratis
+            </Button>
+          </Link>
           <Button variant="outline" className="bg-transparent border-warm-sand/30 text-warm-sand hover:bg-warm-sand/10 hover:text-warm-sand px-8 py-6 rounded-2xl text-base font-medium">
             Ver demostración
           </Button>
